@@ -1,6 +1,6 @@
 // Code Practice: RNGolf
-// Name: 
-// Date:
+// Name: Kiril Saltz
+// Date: 1/29/2025
 
 'use strict'
 
@@ -8,7 +8,13 @@ let config = {
     type: Phaser.AUTO,
     width: 640,
     height: 960,
-    scene: [ Play ]
+    physics:{
+        default: 'arcade',
+        arcade: {
+            debug: true,
+        },
+    }, 
+    scene: [ Play ],
 }
 
 let game = new Phaser.Game(config)
