@@ -61,8 +61,34 @@ class Play extends Phaser.Scene {
         oneWay.body.setImmovable(true)
         oneWay.body.checkCollision.down = false
 
+        //add score and ratio
+        this.score = 0
+        this.shots = 0
+        this.ratio = 100
+        let textConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#59db66',
+            color: '#000000',
+            alighn: 'center',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth:100
+        }
+        this.scoreText = this.add.text(width/5, height/20, this.score, textConfig).setOrigin(.5)
+        this.shotsText = this.add.text(width/2, height/20, this.shots, textConfig).setOrigin(.5)
+        this.ratioText = this.add.text(width/5*4, height/20, String(this.ratio) + "%", textConfig).setOrigin(.5)
+
+
+
         // add pointer input
         this.input.on('pointerdown', (pointer) => {
+            this.shots += 1
+            this.shotsText.text = this.shots
+            this.ratioText.text = String(Math.floor((this.score / this.shots)*100)) + "%"
+
             let shotDirection = pointer.y <= this.ball.y ? 1:-1
             let shotDirection_X = pointer.x <= this.ball.x ? 1:-1
 
@@ -72,6 +98,10 @@ class Play extends Phaser.Scene {
 
         // cup/ball collision
         this.physics.add.collider(this.ball, this.cup, (ball, cup) => {
+            this.score += 1
+            this.scoreText.text = this.score
+            this.ratioText.text = String(Math.floor((this.score / this.shots)*100)) + "%"
+
             ball.setVelocity(0)
             ball.setX(width/2)
             ball.setY(height- height/10)
@@ -94,5 +124,5 @@ Try to implement at least 3/4 of the following features during the remainder of 
 [X] Add ball reset logic on successful shot
 [X] Improve shot logic by making pointer’s relative x-position shoot the ball in correct x-direction
 [X] Make one obstacle move left/right and bounce against screen edges
-[ ] Create and display shot counter, score, and successful shot percentage
+[X] Create and display shot counter, score, and successful shot percentage
 */
